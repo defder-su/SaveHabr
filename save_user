@@ -1,0 +1,129 @@
+get_pages() {
+	prevfilesize=1000000000
+	minfilesize="$prevfilesize"
+	for p in {2..1000}
+	do
+		sleep 0.1
+		wget -E $1/page$p
+		if [ $? -ne 0 ]
+		then
+			break
+		fi
+		filesize="$(wc -c <"page$p.html")"
+		# echo "$filesize $prevfilesize $minfilesize $p"
+		if [ "$filesize" -eq "$prevfilesize" ]
+		then
+			let minfilesizeext=$minfilesize+8
+			if [ "$filesize" -le "$minfilesizeext" ]
+			then
+				if [ "$p" -ge "10" ]
+				then
+					break
+				fi
+			fi
+		fi
+		prevfilesize="$filesize"
+		if [ "$filesize" -lt "$minfilesize" ]
+		then
+			minfilesize="$filesize"
+		fi
+	done
+}
+USER=$1
+if [[ "$USER" == "" ]]
+then
+	echo "The script needs username as a parameter."
+	exit 1	# TODO: adjust error code
+fi
+SUBDIR="user_$USER"
+if [ -e "$SUBDIR" ]; then
+    echo "$SUBDIR already exist (completely downloaded, but when?)"
+elif [ -e "$SUBDIR.zip" ]; then
+    echo "$SUBDIR already exist (completely downloaded and zipped)"
+    exit
+elif [ -e "~$SUBDIR" ]; then
+    echo "~$SUBDIR already exist (incompletely downloaded), you should remove it"
+    exit 1
+else
+    mkdir "~$SUBDIR"
+    cd "~$SUBDIR"
+    ADDR="https://habr.com/ru/users/$USER"
+    wget -E "$ADDR"
+    sleep 5
+    URL="$ADDR/posts"
+    wget -E "$URL"
+    mkdir posts
+    cd posts
+    get_pages $URL
+    cd ..
+    sleep 5
+    URL="$ADDR/comments"
+    wget -E $URL
+    mkdir comments
+    cd comments
+    get_pages $URL
+    cd ..
+    sleep 5
+    mkdir favorite_posts
+    cd favorite_posts
+    URL="$ADDR/favorites/posts"
+    wget -E $URL
+    get_pages $URL
+    cd ..
+    sleep 5
+    mkdir favorite_comments
+    cd favorite_comments
+    URL="$ADDR/favorites/comments"
+    wget -E $URL
+    get_pages $URL
+    cd ..
+    sleep 5
+    URL="$ADDR/subscription/follow"
+    wget -E $URL
+    mkdir follow
+    cd follow
+    get_pages $URL
+    cd ..
+    sleep 5
+    URL="$ADDR/subscription/followers"
+    wget -E $URL
+    mkdir followers
+    cd followers
+    get_pages $URL
+    cd ..
+    cd ..
+    type -P wayback_machine_downloader &>/dev/null && ISINST=1 || ISINST=0
+    if [ $ISINST -eq 0 ]
+    then
+        echo "Install Ruby, then execute 'sudo gem install wayback_machine_downloader'"
+        echo "See also https://linuxnightly.com/how-to-download-a-website-from-the-wayback-machine"
+        echo "It will make backups better"
+    else
+        wayback_machine_downloader -s -p 100000 -c 1 -d ./~$SUBDIR/wayback $ADDR
+    fi
+    mv "~$SUBDIR" "$SUBDIR"
+fi
+
+ZIPFILE="$SUBDIR.zip"
+if [ -d "$SUBDIR" ]; then
+	if [ ! -e "$ZIPFILE" ]; then
+		zip -1 -T -r $ZIPFILE $SUBDIR
+		if [ $? -eq 0 ]; then
+			if [ ! -e "~$SUBDIR" ]; then
+				echo -n "Deleting ~$SUBDIR..."
+				mv "$SUBDIR" "~$SUBDIR"
+				rm -r "~$SUBDIR"
+				if [ $? -eq 0 ]; then
+				    echo " Done"
+				else
+				    echo ""
+				    exit 1
+				fi
+			fi
+		fi
+	fi
+fi
+
+
+
+

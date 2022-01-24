@@ -1,0 +1,4 @@
+echo "Feel free to add usernames to users.txt"
+echo "Backuping..."
+cat users.txt | xargs -L1 ./save_user
+echo "Done"
