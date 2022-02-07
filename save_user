@@ -1,7 +1,7 @@
 get_pages() {
 	prevfilesize=1000000000
 	minfilesize="$prevfilesize"
-	for p in {2..1000}
+	for p in {2..10000}
 	do
 		sleep 0.1
 		wget -E $1/page$p
