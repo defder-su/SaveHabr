@@ -16,8 +16,6 @@ Install `wget`.
 
 Install [Wayback Machine Downloader](https://github.com/hartator/wayback-machine-downloader).
 
-Open a terminal in the folder and run `chmod +x save*`.
-
 ---
 
 ## Installation (Windows):
