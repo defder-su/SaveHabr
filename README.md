@@ -13,7 +13,7 @@
 
 Install `wget`.
 
-Install [Wayback Machine Downloader](https://github.com/hartator/wayback-machine-downloader).
+Install [Wayback Machine Downloader](https://github.com/ImportTaste/wayback-machine-downloader).
 
 ---
 
