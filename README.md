@@ -5,7 +5,6 @@
 ## Features:
 
 - Save info by username.
-- Automatically zip downloaded info (see the "Notes" section).
 - Save by lists.
 
 ---
@@ -42,9 +41,9 @@ Open a terminal in the folder and run `./save` or other script with arguments.
 
 Each entry may contain hundreds files, that's why the scripts zip downloaded entries.
 
-Mount zips: use [Zipster](https://ipfs.io/ipfs/QmUBbaw45ebpNB8oTPd5jR8n6v8oGJ9UMKMmnWYmX4Sk8Z) on macOS, `avfs` on Linux, some tool like `WinMount` on Windows. So, you don't have to unpack zip-files to work with sites.
+Mount zips: use [Zipster](https://ipfs.io/ipfs/QmUBbaw45ebpNB8oTPd5jR8n6v8oGJ9UMKMmnWYmX4Sk8Z) on macOS, `avfs` on Linux, some tool like `WinMount` on Windows. So, you don't have to unpack zip-files to work.
 
-Check downloaded sites.
+Use [SaveWeb](https://github.com/defder-su/SaveWeb) to save posts.
 
 ---
 
@@ -52,9 +51,7 @@ Check downloaded sites.
 
 - [SaveSites](https://github.com/defder-su/SaveSites)
 
-- [SaveMedia](https://github.com/defder-su/SaveMedia)
-
-- [SaveGit](https://github.com/defder-su/SaveGit)
+- [SaveWeb](https://github.com/defder-su/SaveWeb)
 
 - [RatBrowser](https://ratbrowser.com)
 
