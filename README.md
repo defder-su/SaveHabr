@@ -1,6 +1,6 @@
 <h1 align="center">SaveHabr</h1>
 
-<p align="center">The collection of scripts for saving entries from [Habr](https://habr.com).</p>
+<p align="center">The collection of scripts for saving entries from https://habr.com.</p>
 
 ## Features:
 
