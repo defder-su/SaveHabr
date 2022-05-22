@@ -1,6 +1,6 @@
 <h1 align="center">SaveHabr</h1>
 
-<p align="center">The collection of scripts for wget and wayback_machine_downloader.</p>
+<p align="center">The collection of scripts for saving entries from [Habr](https://habr.com).</p>
 
 ## Features:
 
@@ -13,7 +13,7 @@
 
 Install `wget`.
 
-Install [Wayback Machine Downloader](https://github.com/ImportTaste/wayback-machine-downloader).
+Install [Wayback Machine Downloader](https://github.com/ImportTaste/wayback-machine-downloader) and [MiceWeb](https://github.com/Robotizing/MiceWeb).
 
 ---
 
@@ -27,13 +27,13 @@ Follow the above section.
 
 ## Usage:
 
-Open a terminal in the folder and run `./save` or other script with arguments.
+Open a terminal in the folder and run `./save_user` or other script with arguments.
 
 ### Save user info:
 `./save_user example_nickname`
 
 ### Save all entries from users.txt:
-`./save_collection`
+`./save_users`
 
 ---
 
@@ -43,24 +43,20 @@ Each entry may contain hundreds files, that's why the scripts zip downloaded ent
 
 Mount zips: use [Zipster](https://ipfs.io/ipfs/QmUBbaw45ebpNB8oTPd5jR8n6v8oGJ9UMKMmnWYmX4Sk8Z) on macOS, `avfs` on Linux, some tool like `WinMount` on Windows. So, you don't have to unpack zip-files to work.
 
-Use [SaveWeb](https://github.com/defder-su/SaveWeb) to save posts.
-
 ---
 
 ## Related Projects:
 
 - [SaveSites](https://github.com/defder-su/SaveSites)
 
-- [SaveWeb](https://github.com/defder-su/SaveWeb)
-
 - [RatBrowser](https://ratbrowser.com)
 
 - [IPFS](https://ipfs.io)
 
-- [ZeroNet](https://zeronet.io)
+- [ZeroNet](https://zeronet.dev)
 
 ---
 
 ## Contact:
 
-You are welcome in [Defder.SU](https://defder.su).
+You are welcome in [Defder.info](https://defder.info).
