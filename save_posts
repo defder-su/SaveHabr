@@ -1,0 +1,3 @@
+echo "Feel free to add posts IDs and URLs to posts.txt"
+cat posts.txt | xargs -L1 ./save_post
+

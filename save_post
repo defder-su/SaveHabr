@@ -1,0 +1,15 @@
+if [[ $1 == */* ]]; then
+	URL=${@%/}
+else
+	URL="https://habr.com/ru/post/$1"
+fi
+
+type -P miceweb &>/dev/null && ISINST=1 || ISINST=0
+if [ $ISINST -eq 0 ]
+then
+	>&2 echo "Error: miceweb is not installed (seeing https://github.com/Robotizing/MiceWeb/)"
+	exit 127
+fi
+#TODO: use --archives=all
+miceweb save urls - <<< "$(echo $URL/ ; echo $URL/comments/)"
+
