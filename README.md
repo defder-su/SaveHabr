@@ -5,6 +5,7 @@
 ## Features:
 
 - Save info by username.
+- Save post (with comments) into the [MiceWeb](https://github.com/Robotizing/MiceWeb) Library.
 - Save by lists.
 
 ---
@@ -27,13 +28,20 @@ Follow the above section.
 
 ## Usage:
 
-Open a terminal in the folder and run `./save_user` or other script with arguments.
+Open a terminal in the folder and run `./save_user` or `./save_post` with arguments.
 
 ### Save user info:
 `./save_user example_nickname`
 
-### Save all entries from users.txt:
+### Save post:
+`./save_post 1`
+
+`./save_post https://habr.com/post/1`
+
+### Save all entries from users.txt or posts.txt:
 `./save_users`
+
+`./save_posts`
 
 ---
 
