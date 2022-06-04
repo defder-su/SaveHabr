@@ -1,3 +1,8 @@
+type -P miceweb &>/dev/null && ISMWINST=1 || ISMWINST=0
+if [ $ISMWINST -eq 0 ]; then
+    >&2 echo "Error: miceweb is not installed (seeing https://github.com/Robotizing/MiceWeb/)"
+fi
+
 get_pages() {
 	prevfilesize=1000000000
 	minfilesize="$prevfilesize"
@@ -29,12 +34,14 @@ get_pages() {
 		fi
 	done
 }
+
 USER=$1
 if [[ "$USER" == "" ]]
 then
 	echo "The script needs username as a parameter."
 	exit 1	# TODO: adjust error code
 fi
+
 SUBDIR="user_$USER"
 if [ -e "$SUBDIR" ]; then
     echo "$SUBDIR already exist (completely downloaded, but when?)"
@@ -44,7 +51,7 @@ elif [ -e "$SUBDIR.zip" ]; then
 elif [ -e "~$SUBDIR" ]; then
     echo "~$SUBDIR already exist (incompletely downloaded), you should remove it"
     exit 1
-else
+else    
     mkdir "~$SUBDIR"
     cd "~$SUBDIR"
     ADDR="https://habr.com/ru/users/$USER"
@@ -52,6 +59,11 @@ else
     sleep 5
     URL="$ADDR/posts"
     wget -E "$URL"
+    if [ $ISMWINST -eq 1 ]; then
+        #TODO: use --archives=all, save posts from next pages
+        miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/comments/ ; echo $ADDR/favorites/posts/ ; echo $ADDR/favorites/comments/ ; echo $ADDR/subscription/follow/ ; echo $ADDR/subscription/followers/)"
+        miceweb save urls posts.html --base="https://habr.com" --grep="post/"
+    fi
     mkdir posts
     cd posts
     get_pages $URL
