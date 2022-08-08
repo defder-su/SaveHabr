@@ -57,7 +57,7 @@ Mount zips: use [Zipster](https://ipfs.io/ipfs/QmUBbaw45ebpNB8oTPd5jR8n6v8oGJ9UM
 
 - [SaveSites](https://github.com/defder-su/SaveSites)
 
-- [RatBrowser](https://ratbrowser.com)
+- [RatBrowser](http://ratbrowser.com)
 
 - [IPFS](https://ipfs.io)
 
@@ -67,4 +67,4 @@ Mount zips: use [Zipster](https://ipfs.io/ipfs/QmUBbaw45ebpNB8oTPd5jR8n6v8oGJ9UM
 
 ## Contact:
 
-You are welcome in [Defder.info](https://defder.info).
+You are welcome in [Defder.info](http://defder.name).
