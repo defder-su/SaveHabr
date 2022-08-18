@@ -65,6 +65,3 @@ Mount zips: use [Zipster](https://ipfs.io/ipfs/QmUBbaw45ebpNB8oTPd5jR8n6v8oGJ9UM
 
 ---
 
-## Contact:
-
-You are welcome in [Defder.info](http://defder.name).
