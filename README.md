@@ -63,5 +63,3 @@ Mount zips: use [Zipster](https://ipfs.io/ipfs/QmUBbaw45ebpNB8oTPd5jR8n6v8oGJ9UM
 
 - [ZeroNet](https://zeronet.dev)
 
----
-
