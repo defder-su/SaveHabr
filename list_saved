@@ -1,0 +1,15 @@
+if ! ls user_* 2>/dev/null; then
+	>&2 echo "Run 'save_user <username>' to save pages, associated with user"
+fi
+>&2 echo ""
+type -P miceweb &>/dev/null && ISINST=1 || ISINST=0
+if [ $ISINST -eq 0 ]
+then
+	>&2 echo "Error: miceweb is not installed (seeing https://github.com/Robotizing/MiceWeb/)"
+	exit 127
+fi
+miceweb urls --grep=^https://habr.com 2>/dev/null
+#>&2 echo ""
+#>&2 echo "Run 'miceweb present <URL>' or 'miceweb present urls --grep=habr.com' to present the saved habra posts"
+>&2 echo "Run 'miceweb present <URL>' to present selected page"
+>&2 echo ""
