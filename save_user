@@ -59,11 +59,6 @@ else
     sleep 5
     URL="$ADDR/posts"
     wget -E "$URL"
-    if [ $ISMWINST -eq 1 ]; then
-        #TODO: use --archives=all, save posts from next pages
-        miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/comments/ ; echo $ADDR/favorites/posts/ ; echo $ADDR/favorites/comments/ ; echo $ADDR/subscription/follow/ ; echo $ADDR/subscription/followers/)"
-        miceweb save urls posts.html --base="https://habr.com" --grep="post/"
-    fi
     mkdir posts
     cd posts
     get_pages $URL
@@ -103,6 +98,12 @@ else
     cd followers
     get_pages $URL
     cd ..
+    if [ $ISMWINST -eq 1 ]; then
+        #TODO: use --archives=all, save posts from next pages
+        miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/comments/ ; echo $ADDR/favorites/posts/ ; echo $ADDR/favorites/comments/ ; echo $ADDR/subscription/follow/ ; echo $ADDR/subscription/followers/)"
+        miceweb save urls posts.html --base="https://habr.com" --grep="post/"
+        miceweb save urls favorite_posts/posts.html --base="https://habr.com" --grep="post/"
+    fi
     cd ..
     type -P wayback_machine_downloader &>/dev/null && ISINST=1 || ISINST=0
     if [ $ISINST -eq 0 ]
