@@ -1,0 +1,4 @@
+if ! ls -d user_* 2>/dev/null; then
+	>&2 echo "Run 'save_user <username>' to save pages, associated with user"
+fi
+>&2 echo ""

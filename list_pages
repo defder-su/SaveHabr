@@ -1,7 +1,3 @@
-if ! ls -d user_* 2>/dev/null; then
-	>&2 echo "Run 'save_user <username>' to save pages, associated with user"
-fi
->&2 echo ""
 type -P miceweb &>/dev/null && ISINST=1 || ISINST=0
 if [ $ISINST -eq 0 ]
 then
