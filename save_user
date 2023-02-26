@@ -43,6 +43,7 @@ then
 fi
 
 SUBDIR="user_$USER"
+ADDR="https://habr.com/ru/users/$USER"
 if [ -e "$SUBDIR" ]; then
     echo "$SUBDIR already exist (completely downloaded, but when?)"
 	if cd "$SUBDIR"; then
@@ -65,7 +66,6 @@ elif [ -e "~$SUBDIR" ]; then
 else    
     mkdir "~$SUBDIR"
     cd "~$SUBDIR"
-    ADDR="https://habr.com/ru/users/$USER"
     wget -E "$ADDR"
     sleep 5
     URL="$ADDR/posts"
