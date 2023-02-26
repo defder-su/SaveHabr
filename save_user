@@ -45,8 +45,19 @@ fi
 SUBDIR="user_$USER"
 if [ -e "$SUBDIR" ]; then
     echo "$SUBDIR already exist (completely downloaded, but when?)"
+	if cd "$SUBDIR"; then
+    	if [ $ISMWINST -eq 1 ]; then
+        	miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/comments/ ; echo $ADDR/favorites/posts/ ; echo $ADDR/favorites/comments/ ; echo $ADDR/subscription/follow/ ; echo $ADDR/subscription/followers/)"
+        	miceweb save urls posts.html --base="https://habr.com" --grep="post/"
+        	miceweb save urls favorite_posts/posts.html --base="https://habr.com" --grep="post/"
+    	fi
+    	cd ..
+	fi
 elif [ -e "$SUBDIR.zip" ]; then
     echo "$SUBDIR already exist (completely downloaded and zipped)"
+	if [ $ISMWINST -eq 1 ]; then
+		miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/comments/ ; echo $ADDR/favorites/posts/ ; echo $ADDR/favorites/comments/ ; echo $ADDR/subscription/follow/ ; echo $ADDR/subscription/followers/)"
+    fi
     exit
 elif [ -e "~$SUBDIR" ]; then
     echo "~$SUBDIR already exist (incompletely downloaded), you should remove it"
