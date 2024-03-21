@@ -44,16 +44,19 @@ fi
 
 SUBDIR="user_$USER"
 ADDR="https://habr.com/ru/users/$USER"
+
+miceweb_save_urls() {
+	if [ $ISMWINST -eq 1 ]; then
+		miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/publications/articles/ ; echo $ADDR/publications/posts/ ; echo $ADDR/publications/news/ ; echo $ADDR/comments/ ; echo $ADDR/bookmarks/articles/ ; echo $ADDR/bookmarks/posts/ ; echo $ADDR/bookmarks/news/ ; echo $ADDR/bookmarks/comments/ ; echo $ADDR/following/ ; echo $ADDR/followers/)"
+	fi
+}
+
 if [ -e "$SUBDIR" ]; then
     echo "$SUBDIR already exist (completely downloaded, but when?)"
-	if [ $ISMWINST -eq 1 ]; then
-		miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/comments/ ; echo $ADDR/favorites/posts/ ; echo $ADDR/favorites/comments/ ; echo $ADDR/subscription/follow/ ; echo $ADDR/subscription/followers/)"
-	fi
+	miceweb_save_urls
 elif [ -e "$SUBDIR.zip" ]; then
     echo "$SUBDIR already exist (completely downloaded and zipped)"
-	if [ $ISMWINST -eq 1 ]; then
-		miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/comments/ ; echo $ADDR/favorites/posts/ ; echo $ADDR/favorites/comments/ ; echo $ADDR/subscription/follow/ ; echo $ADDR/subscription/followers/)"
-    fi
+	miceweb_save_urls
     exit
 elif [ -e "~$SUBDIR" ]; then
     echo "~$SUBDIR already exist (incompletely downloaded), you should remove it"
@@ -63,52 +66,78 @@ else
     cd "~$SUBDIR"
     wget -E "$ADDR"
     sleep 5
-    URL="$ADDR/posts"
-    wget -E "$URL"
-    mkdir posts
-    cd posts
+    URL="$ADDR/publications/articles"
+    mkdir publications_articles
+    cd publications_articles
+	wget -E "$URL"
+    get_pages $URL
+    cd ..
+    sleep 5
+    URL="$ADDR/publications/posts"
+    mkdir publications_posts
+    cd publications_posts
+	wget -E "$URL"
+    get_pages $URL
+    cd ..
+    sleep 5
+    URL="$ADDR/publications/news"
+    mkdir publications_news
+    cd publications_news
+	wget -E "$URL"
     get_pages $URL
     cd ..
     sleep 5
     URL="$ADDR/comments"
-    wget -E $URL
     mkdir comments
     cd comments
+	wget -E $URL
     get_pages $URL
     cd ..
     sleep 5
-    mkdir favorite_posts
-    cd favorite_posts
-    URL="$ADDR/favorites/posts"
+    mkdir bookmarks_articles
+    cd bookmarks_articles
+    URL="$ADDR/bookmarks/articles"
+    wget -E $URL
+    get_pages $URL
+    cd ..
+    mkdir bookmarks_posts
+    cd bookmarks_posts
+    URL="$ADDR/bookmarks/posts"
+    wget -E $URL
+    get_pages $URL
+    cd ..
+    mkdir bookmarks_news
+    cd bookmarks_news
+    URL="$ADDR/bookmarks/news"
     wget -E $URL
     get_pages $URL
     cd ..
     sleep 5
-    mkdir favorite_comments
-    cd favorite_comments
-    URL="$ADDR/favorites/comments"
+    mkdir bookmarks_comments
+    cd bookmarks_comments
+    URL="$ADDR/bookmarks/comments"
     wget -E $URL
     get_pages $URL
     cd ..
     sleep 5
-    URL="$ADDR/subscription/follow"
-    wget -E $URL
-    mkdir follow
-    cd follow
+    URL="$ADDR/following"
+    mkdir following
+    cd following
+	wget -E $URL
     get_pages $URL
     cd ..
     sleep 5
-    URL="$ADDR/subscription/followers"
-    wget -E $URL
+    URL="$ADDR/followers"
     mkdir followers
     cd followers
+	wget -E $URL
     get_pages $URL
     cd ..
     if [ $ISMWINST -eq 1 ]; then
         #TODO: use --archives=all, save posts from next pages
-        miceweb save urls - <<< "$(echo $ADDR/ ; echo $ADDR/comments/ ; echo $ADDR/favorites/posts/ ; echo $ADDR/favorites/comments/ ; echo $ADDR/subscription/follow/ ; echo $ADDR/subscription/followers/)"
-        miceweb save urls posts.html --base="https://habr.com" --grep="post/"
-        miceweb save urls favorite_posts/posts.html --base="https://habr.com" --grep="post/"
+        miceweb_save_urls
+        miceweb save urls publications_articles/articles.html --base="https://habr.com" --grep="articles/"
+        miceweb save urls bookmarks_articles/articles.html --base="https://habr.com" --grep="articles/"
     fi
     cd ..
     type -P wayback_machine_downloader &>/dev/null && ISINST=1 || ISINST=0
