@@ -75,7 +75,7 @@ elif [ -e "~$SUBDIR" ]; then
 else    
 	mkdir "~$SUBDIR"
 	cd "~$SUBDIR"
-	wget -E "$ADDR"
+	wget -E "$ADDR/"
 	create_directory_and_get_pages publications_articles "$ADDR/publications/articles"
 	create_directory_and_get_pages publications_posts "$ADDR/publications/posts"
 	create_directory_and_get_pages publications_news "$ADDR/publications/news"
