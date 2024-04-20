@@ -1,0 +1,124 @@
+type -P miceweb &>/dev/null && ISMWINST=1 || ISMWINST=0
+if [ $ISMWINST -eq 0 ]; then
+    >&2 echo "Error: miceweb is not installed (seeing https://github.com/Robotizing/MiceWeb/)"
+fi
+
+get_pages() {
+	prevfilesize=1000000000
+	minfilesize="$prevfilesize"
+	for p in {2..2000}
+	do
+		sleep 0.1
+		wget -E $1/page$p
+		if [ $? -ne 0 ]
+		then
+			break
+		fi
+		filesize="$(wc -c <"page$p.html")"
+		# echo "$filesize $prevfilesize $minfilesize $p"
+		if [ "$filesize" -eq "$prevfilesize" ]
+		then
+			let minfilesizeext=$minfilesize+8
+			if [ "$filesize" -le "$minfilesizeext" ]
+			then
+				if [ "$p" -ge "10" ]
+				then
+					break
+				fi
+			fi
+		fi
+		prevfilesize="$filesize"
+		if [ "$filesize" -lt "$minfilesize" ]
+		then
+			minfilesize="$filesize"
+		fi
+	done
+}
+
+COMPANY=$1
+if [[ "$COMPANY" == "" ]]
+then
+	echo "The script needs username as a parameter."
+	exit 1	# TODO: adjust error code
+fi
+
+SUBDIR="user_$COMPANY"
+ADDR="https://habr.com/ru/companies/$COMPANY"
+
+miceweb_save_urls() {
+	if [ $ISMWINST -eq 1 ]; then
+		miceweb save urls - <<< "$(echo $ADDR/profile/ ; echo $ADDR/articles/ ; echo $ADDR/news/ ; echo $ADDR/fans/all/rating/ ; echo $ADDR/workers/all/rating/)"
+	fi
+}
+
+create_directory_and_get_pages() {
+	local directory="$1"
+	local URL="$2"
+	sleep 2.5
+	mkdir "$directory"
+	cd "$directory"
+	wget -E "$URL"
+	get_pages "$URL"
+	cd ..
+}
+
+if [ -e "$SUBDIR" ]; then
+    echo "$SUBDIR already exist (completely downloaded, but when?)"
+	miceweb_save_urls
+elif [ -e "$SUBDIR.zip" ]; then
+    echo "$SUBDIR already exist (completely downloaded and zipped)"
+	miceweb_save_urls
+    exit
+elif [ -e "~$SUBDIR" ]; then
+    echo "~$SUBDIR already exist (incompletely downloaded), you should remove it"
+    exit 1
+else    
+	mkdir "~$SUBDIR"
+	cd "~$SUBDIR"
+	wget -E "$ADDR/profile/"
+	create_directory_and_get_pages articles "$ADDR/articles"
+	create_directory_and_get_pages news "$ADDR/news"
+	create_directory_and_get_pages fans "$ADDR/fans/all/rating"
+	create_directory_and_get_pages workers "$ADDR/workers/all/rating"
+    if [ $ISMWINST -eq 1 ]; then
+        #TODO: use --archives=all, save posts from next pages
+        miceweb_save_urls
+        miceweb save urls publications_articles/articles.html --base="https://habr.com" --grep="articles/"
+        miceweb save urls bookmarks_articles/articles.html --base="https://habr.com" --grep="articles/"
+    fi
+    cd ..
+    type -P wayback_machine_downloader &>/dev/null && ISINST=1 || ISINST=0
+    if [ $ISINST -eq 0 ]
+    then
+        echo "Install Ruby, then execute 'sudo gem install wayback_machine_downloader'"
+        echo "See also https://linuxnightly.com/how-to-download-a-website-from-the-wayback-machine"
+        echo "It will make backups better"
+    else
+        wayback_machine_downloader -s -p 100000 -c 1 -d ./~$SUBDIR/wayback $ADDR
+    fi
+    mv "~$SUBDIR" "$SUBDIR"
+fi
+
+ZIPFILE="$SUBDIR.zip"
+if [ -d "$SUBDIR" ]; then
+	if [ ! -e "$ZIPFILE" ]; then
+		zip -1 -T -r $ZIPFILE $SUBDIR
+		if [ $? -eq 0 ]; then
+			if [ ! -e "~$SUBDIR" ]; then
+				echo -n "Deleting ~$SUBDIR..."
+				mv "$SUBDIR" "~$SUBDIR"
+				rm -r "~$SUBDIR"
+				if [ $? -eq 0 ]; then
+				    echo " Done"
+				else
+				    echo ""
+				    exit 1
+				fi
+			fi
+		fi
+	fi
+fi
+
+
+
+
