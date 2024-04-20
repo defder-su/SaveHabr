@@ -83,8 +83,8 @@ else
     if [ $ISMWINST -eq 1 ]; then
         #TODO: use --archives=all, save posts from next pages
         miceweb_save_urls
-        miceweb save urls publications_articles/articles.html --base="https://habr.com" --grep="articles/"
-        miceweb save urls bookmarks_articles/articles.html --base="https://habr.com" --grep="articles/"
+        miceweb save urls articles/articles.html --base="https://habr.com" --grep="articles/"
+        miceweb save urls news/news.html --base="https://habr.com" --grep="news/"
     fi
     cd ..
     type -P wayback_machine_downloader &>/dev/null && ISINST=1 || ISINST=0
