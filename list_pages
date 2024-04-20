@@ -4,6 +4,7 @@ then
 	>&2 echo "Error: miceweb is not installed (seeing https://github.com/Robotizing/MiceWeb/)"
 	exit 127
 fi
+#TODO: habrahabr.ru, geektimes.ru, megamozg.ru, http://habr.com
 miceweb urls --grep=^https://habr.com 2>/dev/null
 #>&2 echo ""
 #>&2 echo "Run 'miceweb present <URL>' or 'miceweb present urls --grep=habr.com' to present the saved habra posts"
