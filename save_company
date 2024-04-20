@@ -42,7 +42,7 @@ then
 	exit 1	# TODO: adjust error code
 fi
 
-SUBDIR="user_$COMPANY"
+SUBDIR="company_$COMPANY"
 ADDR="https://habr.com/ru/companies/$COMPANY"
 
 miceweb_save_urls() {
