@@ -51,6 +51,17 @@ miceweb_save_urls() {
 	fi
 }
 
+create_directory_and_get_pages() {
+	local directory="$1"
+	local URL="$2"
+	sleep 2.5
+	mkdir "$directory"
+	cd "$directory"
+	wget -E "$URL"
+	get_pages "$URL"
+	cd ..
+}
+
 if [ -e "$SUBDIR" ]; then
     echo "$SUBDIR already exist (completely downloaded, but when?)"
 	miceweb_save_urls
@@ -62,77 +73,19 @@ elif [ -e "~$SUBDIR" ]; then
     echo "~$SUBDIR already exist (incompletely downloaded), you should remove it"
     exit 1
 else    
-    mkdir "~$SUBDIR"
-    cd "~$SUBDIR"
-    wget -E "$ADDR"
-    sleep 5
-    URL="$ADDR/publications/articles"
-    mkdir publications_articles
-    cd publications_articles
-	wget -E "$URL"
-    get_pages $URL
-    cd ..
-    sleep 5
-    URL="$ADDR/publications/posts"
-    mkdir publications_posts
-    cd publications_posts
-	wget -E "$URL"
-    get_pages $URL
-    cd ..
-    sleep 5
-    URL="$ADDR/publications/news"
-    mkdir publications_news
-    cd publications_news
-	wget -E "$URL"
-    get_pages $URL
-    cd ..
-    sleep 5
-    URL="$ADDR/comments"
-    mkdir comments
-    cd comments
-	wget -E $URL
-    get_pages $URL
-    cd ..
-    sleep 5
-    mkdir bookmarks_articles
-    cd bookmarks_articles
-    URL="$ADDR/bookmarks/articles"
-    wget -E $URL
-    get_pages $URL
-    cd ..
-    mkdir bookmarks_posts
-    cd bookmarks_posts
-    URL="$ADDR/bookmarks/posts"
-    wget -E $URL
-    get_pages $URL
-    cd ..
-    mkdir bookmarks_news
-    cd bookmarks_news
-    URL="$ADDR/bookmarks/news"
-    wget -E $URL
-    get_pages $URL
-    cd ..
-    sleep 5
-    mkdir bookmarks_comments
-    cd bookmarks_comments
-    URL="$ADDR/bookmarks/comments"
-    wget -E $URL
-    get_pages $URL
-    cd ..
-    sleep 5
-    URL="$ADDR/following"
-    mkdir following
-    cd following
-	wget -E $URL
-    get_pages $URL
-    cd ..
-    sleep 5
-    URL="$ADDR/followers"
-    mkdir followers
-    cd followers
-	wget -E $URL
-    get_pages $URL
-    cd ..
+	mkdir "~$SUBDIR"
+	cd "~$SUBDIR"
+	wget -E "$ADDR"
+	create_directory_and_get_pages publications_articles "$ADDR/publications/articles"
+	create_directory_and_get_pages publications_posts "$ADDR/publications/posts"
+	create_directory_and_get_pages publications_news "$ADDR/publications/news"
+	create_directory_and_get_pages comments "$ADDR/comments"
+	create_directory_and_get_pages bookmarks_articles "$ADDR/bookmarks/articles"
+	create_directory_and_get_pages bookmarks_posts "$ADDR/bookmarks/posts"
+	create_directory_and_get_pages bookmarks_news "$ADDR/bookmarks/news"
+	create_directory_and_get_pages bookmarks_comments "$ADDR/bookmarks/comments"
+	create_directory_and_get_pages following "$ADDR/following"
+	create_directory_and_get_pages followers "$ADDR/followers"
     if [ $ISMWINST -eq 1 ]; then
         #TODO: use --archives=all, save posts from next pages
         miceweb_save_urls
