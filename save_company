@@ -81,10 +81,11 @@ else
 	create_directory_and_get_pages fans "$ADDR/fans/all/rating"
 	create_directory_and_get_pages workers "$ADDR/workers/all/rating"
     if [ $ISMWINST -eq 1 ]; then
-        #TODO: use --archives=all, save posts from next pages
-        miceweb_save_urls
-        miceweb save urls articles/articles.html --base="https://habr.com" --grep="articles/"
-        miceweb save urls news/news.html --base="https://habr.com" --grep="news/"
+		#TODO: use --archives=all, save posts from next pages
+		miceweb_save_urls
+		miceweb save urls index.html
+		miceweb save urls articles/articles.html --base="https://habr.com" --grep="articles/"
+		miceweb save urls news/news.html --base="https://habr.com" --grep="news/"
     fi
     cd ..
     mv "~$SUBDIR" "$SUBDIR"
