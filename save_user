@@ -67,7 +67,6 @@ if [ -e "$SUBDIR" ]; then
 	miceweb_save_urls
 elif [ -e "$SUBDIR.zip" ]; then
     echo "$SUBDIR already exist (completely downloaded and zipped)"
-	miceweb_save_urls
     exit
 elif [ -e "~$SUBDIR" ]; then
     echo "~$SUBDIR already exist (incompletely downloaded), you should remove it"
