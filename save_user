@@ -88,6 +88,7 @@ else
     if [ $ISMWINST -eq 1 ]; then
         #TODO: use --archives=all, save posts from next pages
         miceweb_save_urls
+        miceweb save urls index.html
         miceweb save urls publications_articles/articles.html --base="https://habr.com" --grep="articles/"
         miceweb save urls bookmarks_articles/articles.html --base="https://habr.com" --grep="articles/"
     fi
