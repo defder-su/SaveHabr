@@ -14,7 +14,7 @@
 
 Install `wget`.
 
-Install [Wayback Machine Downloader](https://github.com/ImportTaste/wayback-machine-downloader) and [MiceWeb](https://github.com/Robotizing/MiceWeb).
+Install [Wayback Machine Downloader](https://github.com/ShiftaDeband/wayback-machine-downloader) and [MiceWeb](https://github.com/Robotizing/MiceWeb).
 
 ---
 
